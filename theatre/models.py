@@ -64,6 +64,9 @@ class Reservation(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return str(self.created_at)
 
@@ -80,8 +83,8 @@ class Ticket(models.Model):
 
     def clean(self):
         for ticket_attr_value, ticket_attr_name, theatre_hall_attr_name in [
-            (self.row, "row", "count_rows"),
-            (self.seat, "seat", "count_seats_in_row"),
+            (self.row, "row", "rows"),
+            (self.seat, "seat", "seats_in_row"),
         ]:
             count_attrs = getattr(
                 self.performance.theatre_hall, theatre_hall_attr_name
