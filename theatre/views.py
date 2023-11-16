@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django.db.models import F, Count
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets, mixins, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
@@ -106,6 +109,28 @@ class PlayViewSet(
 
         return queryset
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "title",
+                type=str,
+                description="Filter by movie title (ex. ?title=Inception)"
+            ),
+            OpenApiParameter(
+                "genres",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by genre id (ex. ?genres=1,2)"
+            ),
+            OpenApiParameter(
+                "actors",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by actor id (ex. ?actors=1,2)"
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class PerformanceViewSet(
     mixins.ListModelMixin,
@@ -131,7 +156,7 @@ class PerformanceViewSet(
 
     def get_queryset(self):
         queryset = self.queryset
-        play = self.request.query_params.get("movie")
+        play = self.request.query_params.get("play")
         date = self.request.query_params.get("date")
 
         if self.action == "list":
@@ -153,6 +178,23 @@ class PerformanceViewSet(
             queryset = queryset.filter(show_time__date=date)
 
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "date",
+                type=datetime,
+                description="Filter by play date (ex. ?date=2023-11-10)"
+            ),
+            OpenApiParameter(
+                "play",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by play id (ex. ?play=1,2)"
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class ReservationPagination(PageNumberPagination):
