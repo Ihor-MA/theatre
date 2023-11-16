@@ -37,8 +37,8 @@ class Genre(models.Model):
 class Play(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    genres = models.ManyToManyField(Genre, related_name="plays")
-    actors = models.ManyToManyField(Actor, related_name="plays")
+    genres = models.ManyToManyField(Genre, related_name="plays", null=True, blank=True)
+    actors = models.ManyToManyField(Actor, related_name="plays", null=True, blank=True)
     image = models.ImageField(null=True, upload_to=play_image_file_path)
 
     class Meta:

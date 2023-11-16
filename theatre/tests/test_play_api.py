@@ -166,58 +166,59 @@ class AdminPlayAPITests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    # def test_create_play(self):
-    #     payload = {
-    #         "title": "Sample play",
-    #         "description": "Sample description",
-    #     }
-    #
-    #     res = self.client.post(PLAY_URL, payload)
-    #     play = Play.objects.get(id=res.data["id"])
-    #
-    #     self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-    #     for key in payload:
-    #         self.assertEqual(payload[key], getattr(play, key))
+    def test_create_play(self):
+        payload = {
+            "id": 1,
+            "title": "Sample play",
+            "description": "Sample description",
+        }
 
-    # def test_create_play_with_genres(self):
-    #     genre1 = sample_genre(name="Fantasy")
-    #     genre2 = sample_genre(name="Horror")
-    #
-    #     payload = {
-    #         "title": "Sample play",
-    #         "description": "Sample description",
-    #         "genres": [genre1.id, genre2.id]
-    #     }
-    #
-    #     res = self.client.post(PLAY_URL, payload)
-    #     play = Play.objects.get(id=res.data["id"])
-    #     genres = play.genres.all()
-    #
-    #     self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-    #
-    #     self.assertEqual(genres.count(), 2)
-    #     self.assertIn(genre1, genres)
-    #     self.assertIn(genre2, genres)
+        res = self.client.post(PLAY_URL, payload)
+        play = Play.objects.get(id=res.data["id"])
 
-    # def test_create_movie_with_actors(self):
-    #     actor1 = sample_actor(first_name="John", last_name="Cena")
-    #     actor2 = sample_actor(first_name="John", last_name="Wick")
-    #
-    #     payload = {
-    #         "title": "Sample movie",
-    #         "description": "Sample description",
-    #         "actors": [actor1.id, actor2.id]
-    #     }
-    #
-    #     res = self.client.post(PLAY_URL, payload)
-    #     play = Play.objects.get(id=res.data["id"])
-    #     actors = play.actors.all()
-    #
-    #     self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-    #
-    #     self.assertEqual(actors.count(), 2)
-    #     self.assertIn(actor1, actors)
-    #     self.assertIn(actor2, actors)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        for key in payload:
+            self.assertEqual(payload[key], getattr(play, key))
+
+    def test_create_play_with_genres(self):
+        genre1 = sample_genre(name="Fantasy")
+        genre2 = sample_genre(name="Horror")
+
+        payload = {
+            "title": "Sample play",
+            "description": "Sample description",
+            "genres": [genre1.id, genre2.id]
+        }
+
+        res = self.client.post(PLAY_URL, payload)
+        play = Play.objects.get(id=res.data["id"])
+        genres = play.genres.all()
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+        self.assertEqual(genres.count(), 2)
+        self.assertIn(genre1, genres)
+        self.assertIn(genre2, genres)
+
+    def test_create_movie_with_actors(self):
+        actor1 = sample_actor(first_name="John", last_name="Cena")
+        actor2 = sample_actor(first_name="John", last_name="Wick")
+
+        payload = {
+            "title": "Sample movie",
+            "description": "Sample description",
+            "actors": [actor1.id, actor2.id]
+        }
+
+        res = self.client.post(PLAY_URL, payload)
+        play = Play.objects.get(id=res.data["id"])
+        actors = play.actors.all()
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+        self.assertEqual(actors.count(), 2)
+        self.assertIn(actor1, actors)
+        self.assertIn(actor2, actors)
 
     def test_delete_or_put_movie_not_allowed(self):
         play = sample_play()
