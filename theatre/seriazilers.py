@@ -115,8 +115,8 @@ class PerformanceDetailSerializer(PerformanceSerializer):
     )
 
     def get_play_image(self, obj):
-        if obj.movie and obj.movie.image:
-            return obj.movie.image.url
+        if obj.play and obj.play.image:
+            return obj.play.image.url
         return None
 
     play_image = serializers.SerializerMethodField(read_only=True)
@@ -136,7 +136,7 @@ class PerformanceDetailSerializer(PerformanceSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ("id", "row", "seat", "performance")
+        fields = ("id", "row", "seat", "performance", "reservation")
 
 
 class TicketListSerializer(TicketSerializer):

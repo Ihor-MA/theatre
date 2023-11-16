@@ -15,6 +15,7 @@ from theatre.models import (
     Play,
     Performance,
     Reservation,
+    Ticket,
 )
 from theatre.permissions import IsAdminOrIfAuthenticatedReadOnly
 from theatre.seriazilers import (
@@ -29,7 +30,7 @@ from theatre.seriazilers import (
     PerformanceDetailSerializer,
     ReservationSerializer,
     ReservationListSerializer,
-    PlayImageSerializer,
+    PlayImageSerializer, TicketSerializer, TicketListSerializer,
 )
 
 
@@ -244,3 +245,9 @@ class ReservationViewSet(
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
