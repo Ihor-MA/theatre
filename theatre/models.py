@@ -37,8 +37,16 @@ class Genre(models.Model):
 class Play(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    genres = models.ManyToManyField(Genre, related_name="plays", null=True, blank=True)
-    actors = models.ManyToManyField(Actor, related_name="plays", null=True, blank=True)
+    genres = models.ManyToManyField(
+        Genre,
+        related_name="plays",
+        null=True, blank=True,
+    )
+    actors = models.ManyToManyField(
+        Actor,
+        related_name="plays",
+        null=True, blank=True,
+    )
     image = models.ImageField(null=True, upload_to=play_image_file_path)
 
     class Meta:
@@ -62,8 +70,16 @@ class TheatreHall(models.Model):
 
 
 class Performance(models.Model):
-    play = models.ForeignKey(Play, on_delete=models.CASCADE, related_name="performances")
-    theatre_hall = models.ForeignKey(TheatreHall, on_delete=models.CASCADE, related_name="performances")
+    play = models.ForeignKey(
+        Play,
+        on_delete=models.CASCADE,
+        related_name="performances",
+    )
+    theatre_hall = models.ForeignKey(
+        TheatreHall,
+        on_delete=models.CASCADE,
+        related_name="performances",
+    )
     show_time = models.DateTimeField()
 
     class Meta:

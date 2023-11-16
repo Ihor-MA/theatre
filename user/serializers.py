@@ -4,7 +4,6 @@ from rest_framework.authtoken.models import Token
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = get_user_model()
         fields = ("id", "email", "password", "is_staff")
@@ -27,7 +26,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    password = serializers.CharField(
+        write_only=True, style={"input_type": "password"}
+    )
 
     def validate(self, data):
         email = data.get("email")
@@ -42,9 +43,12 @@ class AuthTokenSerializer(serializers.Serializer):
                 data["user"] = user
                 data["token"] = token.key
             else:
-                raise serializers.ValidationError("Invalid credentials. Please try again.")
+                raise serializers.ValidationError(
+                    "Invalid credentials. Please try again."
+                )
         else:
-            raise serializers.ValidationError("Enter your e-mail address and password.")
+            raise serializers.ValidationError(
+                "Enter your e-mail address and password."
+            )
 
         return data
-

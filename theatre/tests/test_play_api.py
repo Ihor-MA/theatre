@@ -89,7 +89,11 @@ class AuthenticatedPlayApiTests(TestCase):
 
         play3 = sample_play(title="without actors")
 
-        res = self.client.get(PLAY_URL, {"actors": f"{actor1.id}, {actor2.id}"})
+        res = self.client.get(
+            PLAY_URL,
+            {"actors": f"{actor1.id},"
+                       f" {actor2.id}"}
+        )
 
         serializer1 = PlayListSerializer(play1)
         serializer2 = PlayListSerializer(play2)
@@ -111,7 +115,11 @@ class AuthenticatedPlayApiTests(TestCase):
 
         play3 = sample_play(title="without genres")
 
-        res = self.client.get(PLAY_URL, {"genres": f"{genre1.id}, {genre2.id}"})
+        res = self.client.get(
+            PLAY_URL,
+            {"genres": f"{genre1.id},"
+                       f" {genre2.id}"}
+        )
 
         serializer1 = PlayListSerializer(play1)
         serializer2 = PlayListSerializer(play2)
@@ -227,5 +235,11 @@ class AdminPlayAPITests(TestCase):
         res_delete = self.client.delete(url)
         res_put = self.client.put(url)
 
-        self.assertEqual(res_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.assertEqual(res_put.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(
+            res_delete.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED,
+        )
+        self.assertEqual(
+            res_put.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED,
+        )

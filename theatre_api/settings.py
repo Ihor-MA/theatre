@@ -93,9 +93,9 @@ DATABASES = {
         "NAME": os.environ.get("POSTGRES_DB"),
         "USER": os.environ.get("POSTGRES_USER"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        'TEST': {
-                    'NAME': 'mytestdatabase',
-                },
+        "TEST": {
+            "NAME": "mytestdatabase",
+        },
     }
 }
 
@@ -172,5 +172,5 @@ SPECTACULAR_SETTINGS = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ROTATE_REFRESH_TOKENS": False
+    "ROTATE_REFRESH_TOKENS": False,
 }
